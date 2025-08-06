@@ -81,6 +81,13 @@ const getSourceFile = (taalName, targetBpm) => {
 function TablaMachine() {
   const [selectedTaalName, setSelectedTaalName] = useState('Teentaal');
   const [selectedKey, setSelectedKey] = useState('G#');
+  // Remove default margin and padding from body and html to eliminate gaps around the background
+  useEffect(() => {
+    document.body.style.margin = '0';
+    document.body.style.padding = '0';
+    document.documentElement.style.margin = '0';
+    document.documentElement.style.padding = '0';
+  }, []);
   const [bpm, setBpm] = useState(150);
   const [isPlaying, setIsPlaying] = useState(false);
   const [beatCounter, setBeatCounter] = useState(0);
