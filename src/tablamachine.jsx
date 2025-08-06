@@ -145,7 +145,7 @@ function TablaMachine() {
 
       cancelAnimationFrame(animationFrameRef.current);
 
-      const response = await fetch(sourceFile.file);
+      const response = await fetch(`${import.meta.env.BASE_URL}${sourceFile.file.replace(/^\//, '')}`);
       const arrayBuffer = await response.arrayBuffer();
       const audioBuffer = await audioCtxRef.current.decodeAudioData(arrayBuffer);
 
@@ -207,7 +207,7 @@ function TablaMachine() {
     }
     if (tanpuraOn) {
       const note = selectedKey.replace('#', 's');
-      const audio = new Audio(`/sounds/tanpura/${note}.mp3`);
+      const audio = new Audio(`${import.meta.env.BASE_URL}sounds/tanpura/${note}.mp3`);
       audio.loop = true;
       audio.volume = 0.2; // Set default volume
       audio.play();
@@ -255,7 +255,7 @@ function TablaMachine() {
       justifyContent: 'center', 
       alignItems: 'center', 
       fontFamily: 'sans-serif', 
-      backgroundImage: 'url("/Tablas_Kodikal_highres.jpg")', 
+      backgroundImage: `url('${import.meta.env.BASE_URL}Tablas_Kodikal_highres.jpg')`,
       backgroundSize: 'cover', 
       backgroundPosition: 'center' 
     }}>
