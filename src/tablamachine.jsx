@@ -286,7 +286,7 @@ function TablaMachine() {
         maxWidth: 400,
         width: '90vw',
         margin: 0,
-        padding: 20,
+        padding: '20px 12.5%',
         backgroundColor: 'rgba(255, 255, 255, 0.8)',
         borderRadius: '8px',
         boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
@@ -307,7 +307,7 @@ function TablaMachine() {
             {TAAL_NAMES.map(t => <option key={t} value={t}>{t}</option>)}
           </select>
         </div>
-        <div style={{ marginTop: 20, display: 'flex', justifyContent: 'space-between' }}>
+        <div style={{ marginTop: 20, marginBottom: 20, display: 'flex', justifyContent: 'space-between' }}>
           <button 
             onClick={() => setIsPlaying(true)} 
             disabled={isPlaying} 
@@ -352,13 +352,13 @@ function TablaMachine() {
           </button>
         </div>
         <div style={{ marginBottom: '20px' }}>
-          <label style={{ fontWeight: 'bold', color: '#333' }}>BPM: </label>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <button onClick={() => updateBpm(-5)} disabled={bpm < 45} style={{ flex: '0 0 auto', padding: '10px', marginRight: '10px', borderRadius: '4px', border: '1px solid #ccc', backgroundColor: '#f0f0f0', cursor: 'pointer', color: '#333' }}>-5</button>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '10px' }}>
+            <label style={{ fontWeight: 'bold', color: '#333', marginRight: '10px' }}>BPM: </label>
+            <button onClick={() => updateBpm(-5)} disabled={bpm < 45} style={{ flex: '0 0 auto', padding: '10px', marginRight: '5px', borderRadius: '4px', border: '1px solid #ccc', backgroundColor: '#f0f0f0', cursor: 'pointer', color: '#333' }}>-5</button>
             <button onClick={() => updateBpm(-1)} disabled={bpm <= 40} style={{ flex: '0 0 auto', padding: '10px', marginRight: '10px', borderRadius: '4px', border: '1px solid #ccc', backgroundColor: '#f0f0f0', cursor: 'pointer', color: '#333' }}>-</button>
             <span style={{ minWidth: '3em', textAlign: 'center', fontSize: '1.5em', fontWeight: 'bold', color: '#333' }}>{bpm}</span>
             <button onClick={() => updateBpm(1)} disabled={bpm >= 300} style={{ flex: '0 0 auto', padding: '10px', marginLeft: '10px', borderRadius: '4px', border: '1px solid #ccc', backgroundColor: '#f0f0f0', cursor: 'pointer', color: '#333' }}>+</button>
-            <button onClick={() => updateBpm(5)} disabled={bpm >= 296} style={{ flex: '0 0 auto', padding: '10px', marginLeft: '10px', borderRadius: '4px', border: '1px solid #ccc', backgroundColor: '#f0f0f0', cursor: 'pointer', color: '#333' }}>+5</button>
+            <button onClick={() => updateBpm(5)} disabled={bpm >= 296} style={{ flex: '0 0 auto', padding: '10px', marginLeft: '5px', borderRadius: '4px', border: '1px solid #ccc', backgroundColor: '#f0f0f0', cursor: 'pointer', color: '#333' }}>+5</button>
           </div>
           <input 
             type="range" 
@@ -367,7 +367,7 @@ function TablaMachine() {
             step="5"
             value={bpm} 
             onChange={(e) => handleSliderChange(Number(e.target.value))} 
-            style={{ width: '100%', marginTop: '10px' }} 
+            style={{ width: '100%' }} 
           />
         </div>
         <div style={{ marginBottom: '20px' }}>
