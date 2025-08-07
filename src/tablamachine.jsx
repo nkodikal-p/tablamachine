@@ -140,21 +140,32 @@ function TablaMachine() {
       }
     };
 
-    const handlePlay = async () => {
-      if (!audioCtxRef.current) {
+    const handlePlay = async (loop = false) => {
+      // On the first run (not a loop), ensure the context is created.
+      if (!loop && !audioCtxRef.current) {
         audioCtxRef.current = new (window.AudioContext || window.webkitAudioContext)();
       }
       
+      // Disconnect and clear the previous source if it exists.
       if (sourceNodeRef.current) {
           sourceNodeRef.current.disconnect();
           sourceNodeRef.current = null;
       }
 
+      // Stop any previous animation frame.
       cancelAnimationFrame(animationFrameRef.current);
 
       const response = await fetch(`${import.meta.env.BASE_URL}${sourceFile.file.replace(/^\//, '')}`);
       const arrayBuffer = await response.arrayBuffer();
-      const audioBuffer = await audioCtxRef.current.decodeAudioData(arrayBuffer);
+      // Use a try-catch block to handle potential decoding errors.
+      let audioBuffer;
+      try {
+        audioBuffer = await audioCtxRef.current.decodeAudioData(arrayBuffer);
+      } catch (e) {
+        console.error('Error decoding audio data:', e);
+        setIsPlaying(false); // Stop playback if audio is invalid.
+        return;
+      }
 
       const source = new WebAudioBufferSource(audioBuffer);
       const soundTouch = new SoundTouch();
@@ -177,10 +188,10 @@ function TablaMachine() {
         }
       }, startDelay);
 
+      // When the track ends, if we are still in "playing" state, loop it.
       node.onended = () => {
-          if (sourceNodeRef.current === node) {
-              setIsPlaying(false);
-              setTimeout(() => setIsPlaying(true), 0);
+          if (isPlaying) {
+              handlePlay(true); // Recursively call handlePlay to loop
           }
       };
     };
@@ -196,6 +207,7 @@ function TablaMachine() {
       setBeatCounter(0);
     }
     
+    // Cleanup function: this runs when isPlaying becomes false or the component unmounts.
     return () => {
       if (sourceNodeRef.current) {
         sourceNodeRef.current.disconnect();
