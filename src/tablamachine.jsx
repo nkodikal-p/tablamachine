@@ -255,24 +255,29 @@ function TablaMachine() {
   };
 
   return (
-    <div style={{ 
-      width: '100vw', 
-      height: '100vh', 
-      display: 'flex', 
-      justifyContent: 'center', 
-      alignItems: 'center', 
-      fontFamily: 'sans-serif', 
+    <div style={{
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      width: '100vw',
+      height: '100vh',
+      fontFamily: 'sans-serif',
       backgroundImage: `url('${import.meta.env.BASE_URL}Tablas_Kodikal_highres.jpg')`,
-      backgroundSize: 'cover', 
-      backgroundPosition: 'center' 
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      overflow: 'hidden',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
     }}>
-      <div style={{ 
-        maxWidth: 400, 
+      <div style={{
+        maxWidth: 400,
+        width: '90vw',
         margin: 0,
-        padding: 20, 
-        backgroundColor: 'rgba(255, 255, 255, 0.8)', 
-        borderRadius: '8px', 
-        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)' 
+        padding: 20,
+        backgroundColor: 'rgba(255, 255, 255, 0.8)',
+        borderRadius: '8px',
+        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
       }}>
         <div style={{ textAlign: 'center', fontSize: '2.0em', fontWeight: 'bold', color: '#333', marginBottom: '10px', height: '2.2em' }}>
           {isPlaying && (
