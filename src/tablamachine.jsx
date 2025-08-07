@@ -268,7 +268,7 @@ function TablaMachine() {
     }}>
       <div style={{ 
         maxWidth: 400, 
-        margin: 'auto', 
+        margin: 0,
         padding: 20, 
         backgroundColor: 'rgba(255, 255, 255, 0.8)', 
         borderRadius: '8px', 
