@@ -140,19 +140,16 @@ function TablaMachine() {
       }
     };
 
-    // Track the current playing node to prevent multiple loops
-    const currentNodeRef = useRef(null);
-
     const handlePlay = async (loop = false) => {
       // On the first run (not a loop), ensure the context is created.
       if (!loop && !audioCtxRef.current) {
         audioCtxRef.current = new (window.AudioContext || window.webkitAudioContext)();
       }
-
+      
       // Disconnect and clear the previous source if it exists.
       if (sourceNodeRef.current) {
-        sourceNodeRef.current.disconnect();
-        sourceNodeRef.current = null;
+          sourceNodeRef.current.disconnect();
+          sourceNodeRef.current = null;
       }
 
       // Stop any previous animation frame.
@@ -178,10 +175,9 @@ function TablaMachine() {
       const filter = new SimpleFilter(source, soundTouch);
       const node = getWebAudioNode(audioCtxRef.current, filter);
       sourceNodeRef.current = node;
-      currentNodeRef.current = node;
-
+      
       node.connect(audioCtxRef.current.destination);
-
+      
       // A small delay before starting the counter to allow for audio processing latency.
       const startDelay = 150; // milliseconds
       setTimeout(() => {
@@ -194,10 +190,9 @@ function TablaMachine() {
 
       // When the track ends, if we are still in "playing" state, loop it.
       node.onended = () => {
-        // Only loop if this is the current node
-        if (isPlaying && currentNodeRef.current === node) {
-          handlePlay(true);
-        }
+          if (isPlaying) {
+              handlePlay(true); // Recursively call handlePlay to loop
+          }
       };
     };
 
