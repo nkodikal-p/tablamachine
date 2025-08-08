@@ -300,7 +300,7 @@ function TablaMachine() {
         <h2 style={{ textAlign: 'center', color: '#333' }}>e-Tabla</h2>
         <div style={{ marginBottom: '20px' }}>
           <label style={{ fontWeight: 'bold', color: '#333' }}>Taal: </label>
-          <select value={selectedTaalName} style={{ fontSize: '1.25em', width: '100%', padding: '10px', borderRadius: '4px', border: '1px solid #ccc', color: '#aaa', textAlign: 'center' }} onChange={e => {
+          <select value={selectedTaalName} style={{ fontSize: '1.25em', width: '100%', padding: '10px', borderRadius: '4px', border: '1px solid #ccc', color: '#efeeeeff', textAlign: 'center' }} onChange={e => {
             const newTaalName = e.target.value;
             setSelectedTaalName(newTaalName);
           }}>
@@ -376,7 +376,7 @@ function TablaMachine() {
             <select
               value={selectedKey}
               onChange={e => setSelectedKey(e.target.value)}
-              style={{ width: '33%', padding: '10px', borderRadius: '4px', border: '1px solid #ccc', color: '#aaa', marginRight: '16px' }}
+              style={{ width: '33%', padding: '10px', borderRadius: '4px', border: '1px solid #ccc', color: '#efeeeeff', marginRight: '16px' }}
             >
               {KEYS.map(k => <option key={k} value={k}>{k}</option>)}
             </select>
@@ -385,20 +385,22 @@ function TablaMachine() {
               Tanpura
             </label>
           </div>
-          {tanpuraOn && (
-            <div style={{ display: 'flex', alignItems: 'center', marginTop: '8px', justifyContent: 'flex-end' }}>
-              <label style={{ fontWeight: 'bold', color: '#333', marginRight: '8px' }}>Volume:</label>
-              <input
-                type="range"
-                min="0"
-                max="1"
-                step="0.01"
-                value={tanpuraVolume}
-                onChange={e => setTanpuraVolume(parseFloat(e.target.value))}
-                style={{ width: '50%', cursor: 'pointer' }}
-              />
-            </div>
-          )}
+          <div style={{ height: '40px', marginTop: '8px', display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
+            {tanpuraOn ? (
+              <>
+                <label style={{ fontWeight: 'bold', color: '#333', marginRight: '8px' }}>Volume:</label>
+                <input
+                  type="range"
+                  min="0"
+                  max="1"
+                  step="0.01"
+                  value={tanpuraVolume}
+                  onChange={e => setTanpuraVolume(parseFloat(e.target.value))}
+                  style={{ width: '50%', cursor: 'pointer' }}
+                />
+              </>
+            ) : null}
+          </div>
         </div>
       </div>
     </div>
