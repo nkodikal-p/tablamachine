@@ -263,7 +263,7 @@ function TablaMachine() {
       }
       setIsPlaying(false);
       setTimeout(() => {
-        setTimeout(() => setIsPlaying(true), 50); // Add 50ms pause before restarting playback
+        setTimeout(() => setIsPlaying(true), 100); // Add 100ms pause before restarting playback
       }, 0);
     }
   };
