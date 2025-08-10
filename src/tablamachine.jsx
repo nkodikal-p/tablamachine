@@ -262,7 +262,9 @@ function TablaMachine() {
         sourceNodeRef.current = null;
       }
       setIsPlaying(false);
-      setTimeout(() => setIsPlaying(true), 0); // Restart playback with the new BPM
+      setTimeout(() => {
+        setTimeout(() => setIsPlaying(true), 50); // Add 50ms pause before restarting playback
+      }, 0);
     }
   };
 
@@ -274,7 +276,7 @@ function TablaMachine() {
       width: '100vw',
       height: '100vh',
       fontFamily: 'sans-serif',
-      backgroundImage: `url('${import.meta.env.BASE_URL}Tablas_Kodikal_highres.jpg')`,
+      backgroundImage: `url('${import.meta.env.BASE_URL}Tablas_Kodikal_lowres.jpg')`,
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       overflow: 'hidden',
