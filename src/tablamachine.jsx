@@ -276,7 +276,7 @@ function TablaMachine() {
       width: '100vw',
       height: '100vh',
       fontFamily: 'sans-serif',
-      backgroundImage: `url('${import.meta.env.BASE_URL}Tablas_Kodikal_lowres.jpg')`,
+      backgroundImage: `url('${import.meta.env.BASE_URL}Tablas_Kodikal_highres.jpg')`,
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       overflow: 'hidden',
