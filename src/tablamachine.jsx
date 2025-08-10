@@ -79,6 +79,8 @@ const getSourceFile = (taalName, targetBpm) => {
 
 
 function TablaMachine() {
+  // Ref for BPM debounce timer
+  const bpmDebounceRef = useRef(null);
   const [selectedTaalName, setSelectedTaalName] = useState('Teentaal');
   const [selectedKey, setSelectedKey] = useState('G#');
   // Remove default margin and padding from body and html to eliminate gaps around the background
@@ -262,9 +264,13 @@ function TablaMachine() {
         sourceNodeRef.current = null;
       }
       setIsPlaying(false);
-      setTimeout(() => {
-        setTimeout(() => setIsPlaying(true), 100); // Add 100ms pause before restarting playback
-      }, 0);
+      // Debounce: only restart playback after user stops moving slider for 200ms
+      if (bpmDebounceRef.current) {
+        clearTimeout(bpmDebounceRef.current);
+      }
+      bpmDebounceRef.current = setTimeout(() => {
+        setIsPlaying(true);
+      }, 200);
     }
   };
 
