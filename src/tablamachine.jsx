@@ -81,6 +81,8 @@ const getSourceFile = (taalName, targetBpm) => {
 function TablaMachine() {
   // Ref for BPM debounce timer
   const bpmDebounceRef = useRef(null);
+  // Ref to track if a BPM change is pending
+  const bpmChangePendingRef = useRef(false);
   const [selectedTaalName, setSelectedTaalName] = useState('Teentaal');
   const [selectedKey, setSelectedKey] = useState('G#');
   // Remove default margin and padding from body and html to eliminate gaps around the background
@@ -259,17 +261,25 @@ function TablaMachine() {
   const handleSliderChange = (value) => {
     setBpm(value);
     if (isPlaying) {
-      if (sourceNodeRef.current) {
-        sourceNodeRef.current.disconnect();
-        sourceNodeRef.current = null;
-      }
-      setIsPlaying(false);
+      // Mark that a BPM change is pending
+      bpmChangePendingRef.current = true;
       // Debounce: only restart playback after user stops moving slider for 200ms
       if (bpmDebounceRef.current) {
         clearTimeout(bpmDebounceRef.current);
       }
       bpmDebounceRef.current = setTimeout(() => {
-        setIsPlaying(true);
+        // Only restart playback if a BPM change was pending
+        if (bpmChangePendingRef.current) {
+          if (sourceNodeRef.current) {
+            sourceNodeRef.current.disconnect();
+            sourceNodeRef.current = null;
+          }
+          setIsPlaying(false);
+          setTimeout(() => {
+            setIsPlaying(true);
+            bpmChangePendingRef.current = false;
+          }, 0);
+        }
       }, 200);
     }
   };
@@ -287,6 +297,7 @@ function TablaMachine() {
       backgroundPosition: 'center',
       overflow: 'hidden',
       display: 'flex',
+      flexDirection: 'column',
       justifyContent: 'center',
       alignItems: 'center',
     }}>
@@ -308,7 +319,7 @@ function TablaMachine() {
         <h2 style={{ textAlign: 'center', color: '#333' }}>e-Tabla</h2>
         <div style={{ marginBottom: '20px' }}>
           <label style={{ fontWeight: 'bold', color: '#333' }}>Taal: </label>
-          <select value={selectedTaalName} style={{ fontSize: '1.25em', width: '100%', padding: '10px', borderRadius: '4px', border: '1px solid #ccc', color: '#efeeeeff', textAlign: 'center' }} onChange={e => {
+          <select value={selectedTaalName} style={{ fontSize: '1.25em', width: '100%', padding: '10px', borderRadius: '4px', border: '1px solid #ccc', color: '#aaa', textAlign: 'center' }} onChange={e => {
             const newTaalName = e.target.value;
             setSelectedTaalName(newTaalName);
           }}>
@@ -384,7 +395,7 @@ function TablaMachine() {
             <select
               value={selectedKey}
               onChange={e => setSelectedKey(e.target.value)}
-              style={{ width: '33%', padding: '10px', borderRadius: '4px', border: '1px solid #ccc', color: '#efeeeeff', marginRight: '16px' }}
+              style={{ width: '33%', padding: '10px', borderRadius: '4px', border: '1px solid #ccc', color: '#aaa', marginRight: '16px' }}
             >
               {KEYS.map(k => <option key={k} value={k}>{k}</option>)}
             </select>
@@ -410,6 +421,9 @@ function TablaMachine() {
             ) : null}
           </div>
         </div>
+      </div>
+      <div style={{ width: '100vw', textAlign: 'center', color: '#888', fontSize: '1em', marginTop: '16px', marginBottom: '8px', letterSpacing: '1px' }}>
+        Nilesh Kodikal 09Aug25 20:37
       </div>
     </div>
   );
