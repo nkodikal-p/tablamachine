@@ -305,14 +305,20 @@ function TablaMachine() {
           )}
           {isPlaying && ` / ${TAAL_BEATS[selectedTaalName] || 0}`}
         </div>
-        <h2 style={{ textAlign: 'center', color: '#333' }}>e-Tabla</h2>
+        <h1 style={{ textAlign: 'center', color: '#676767ff' }}>e-Tabla</h1>
         <div style={{ marginBottom: '20px' }}>
-          <label style={{ fontWeight: 'bold', color: '#333' }}>Taal: </label>
+          <label style={{ fontWeight: 'bold', color: '#676767ff', fontSize: '1.0em'  }}>Taal: </label>
           <select value={selectedTaalName} style={{ fontSize: '1.25em', width: '100%', padding: '10px', borderRadius: '4px', border: '1px solid #ccc', color: '#efeeeeff', textAlign: 'center' }} onChange={e => {
             const newTaalName = e.target.value;
             setSelectedTaalName(newTaalName);
           }}>
-            {TAAL_NAMES.map(t => <option key={t} value={t}>{t}</option>)}
+            {[...TAAL_NAMES]
+              .sort((a, b) => (TAAL_BEATS[a] || 0) - (TAAL_BEATS[b] || 0))
+              .map(t => (
+                <option key={t} value={t}>
+                  {t} {TAAL_BEATS[t] ? TAAL_BEATS[t] : ''}
+                </option>
+              ))}
           </select>
         </div>
         <div style={{ marginTop: 20, marginBottom: 20, display: 'flex', justifyContent: 'space-between' }}>
@@ -361,7 +367,7 @@ function TablaMachine() {
         </div>
         <div style={{ marginBottom: '20px' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '10px' }}>
-            <label style={{ fontWeight: 'bold', color: '#333', marginRight: '10px' }}>BPM: </label>
+            <label style={{ fontWeight: 'bold', color: '#676767ff', marginRight: '10px', fontSize: '1.0em' }}>BPM: </label>
             <button onClick={() => updateBpm(-5)} disabled={bpm < 45} style={{ flex: '0 0 auto', padding: '10px', marginRight: '5px', borderRadius: '4px', border: '1px solid #ccc', backgroundColor: '#f0f0f0', cursor: 'pointer', color: '#333' }}>-5</button>
             <button onClick={() => updateBpm(-1)} disabled={bpm <= 40} style={{ flex: '0 0 auto', padding: '10px', marginRight: '10px', borderRadius: '4px', border: '1px solid #ccc', backgroundColor: '#f0f0f0', cursor: 'pointer', color: '#333' }}>-</button>
             <span style={{ minWidth: '3em', textAlign: 'center', fontSize: '1.5em', fontWeight: 'bold', color: '#333' }}>{bpm}</span>
@@ -380,7 +386,7 @@ function TablaMachine() {
         </div>
         <div style={{ marginBottom: '20px' }}>
           <div style={{ display: 'flex', alignItems: 'center' }}>
-            <label style={{ fontWeight: 'bold', color: '#333', marginRight: '8px' }}>Key:</label>
+            <label style={{ fontWeight: 'bold', color: '#676767ff', marginRight: '8px', fontSize: '1.0em' }}>Key:</label>
             <select
               value={selectedKey}
               onChange={e => setSelectedKey(e.target.value)}
@@ -410,6 +416,9 @@ function TablaMachine() {
             ) : null}
           </div>
         </div>
+      </div>
+      <div style={{ width: '100vw', textAlign: 'center', color: '#888', fontSize: '0.8em', marginTop: '16px', marginBottom: '8px', letterSpacing: '1px', position: 'absolute', bottom: '16px' }}>
+        Nilesh Kodikal 9Aug25 21:03
       </div>
     </div>
   );
