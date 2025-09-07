@@ -11,37 +11,62 @@ import { FaPlay, FaStop } from 'react-icons/fa';
 const TAAL_FILES = {
   'Japtaal': [
     { bpm: 160, file: 'sounds/taals/japtaal_160_G.mp3', key: 'G' },
+    { bpm: 160, file: 'sounds/taals/japtaal_160_Cs.mp3', key: 'Cs' }
+
   ],
   'Bhajani': [
     { bpm: 80, file: 'sounds/taals/bhajani_80_G.mp3', key: 'G' },
+    { bpm: 80, file: 'sounds/taals/bhajani_80_Cs.mp3', key: 'Cs' },
     { bpm: 100, file: 'sounds/taals/bhajani_100_G.mp3', key: 'G' },
+    { bpm: 100, file: 'sounds/taals/bhajani_100_Cs.mp3', key: 'Cs' },
   ],
   'Teentaal': [
     { bpm: 80, file: 'sounds/taals/teentaal_80_G.mp3', key: 'G' },
+    { bpm: 80, file: 'sounds/taals/teentaal_80_Cs.mp3', key: 'Cs' },
     { bpm: 100, file: 'sounds/taals/teentaal_100_G.mp3', key: 'G' },
+    { bpm: 100, file: 'sounds/taals/teentaal_100_Cs.mp3', key: 'Cs' },
     { bpm: 120, file: 'sounds/taals/teentaal_120_G.mp3', key: 'G' },
+    { bpm: 120, file: 'sounds/taals/teentaal_120_Cs.mp3', key: 'Cs' },
     { bpm: 140, file: 'sounds/taals/teentaal_140_G.mp3', key: 'G' },
+    { bpm: 140, file: 'sounds/taals/teentaal_140_Cs.mp3', key: 'Cs' },
     { bpm: 160, file: 'sounds/taals/teentaal_160_G.mp3', key: 'G' },
+    { bpm: 160, file: 'sounds/taals/teentaal_160_Cs.mp3', key: 'Cs' },
     { bpm: 180, file: 'sounds/taals/teentaal_180_G.mp3', key: 'G' },
+    { bpm: 180, file: 'sounds/taals/teentaal_180_Cs.mp3', key: 'Cs' },
     { bpm: 200, file: 'sounds/taals/teentaal_200_G.mp3', key: 'G' },
+    { bpm: 200, file: 'sounds/taals/teentaal_200_Cs.mp3', key: 'Cs' },
   ],
   'Ektaal': [
     { bpm: 80, file: 'sounds/taals/ektaal_80_G.mp3', key: 'G' },
+    { bpm: 80, file: 'sounds/taals/ektaal_80_Cs.mp3', key: 'Cs' },
     { bpm: 100, file: 'sounds/taals/ektaal_100_G.mp3', key: 'G' },
+    { bpm: 100, file: 'sounds/taals/ektaal_100_Cs.mp3', key: 'Cs' },
     { bpm: 120, file: 'sounds/taals/ektaal_120_G.mp3', key: 'G' },
+    { bpm: 120, file: 'sounds/taals/ektaal_120_Cs.mp3', key: 'Cs' },
     { bpm: 140, file: 'sounds/taals/ektaal_140_G.mp3', key: 'G' },
+    { bpm: 140, file: 'sounds/taals/ektaal_140_Cs.mp3', key: 'Cs' },
     { bpm: 160, file: 'sounds/taals/ektaal_160_G.mp3', key: 'G' },
+    { bpm: 160, file: 'sounds/taals/ektaal_160_Cs.mp3', key: 'Cs' },
     { bpm: 180, file: 'sounds/taals/ektaal_180_G.mp3', key: 'G' },
+    { bpm: 180, file: 'sounds/taals/ektaal_180_Cs.mp3', key: 'Cs' },
     { bpm: 200, file: 'sounds/taals/ektaal_200_G.mp3', key: 'G' },
+    { bpm: 200, file: 'sounds/taals/ektaal_200_Cs.mp3', key: 'Cs' }
   ],
   'Roopak': [
     { bpm: 80, file: 'sounds/taals/roopak_80_G.mp3', key: 'G' },
+    { bpm: 80, file: 'sounds/taals/roopak_80_Cs.mp3', key: 'Cs' },
     { bpm: 100, file: 'sounds/taals/roopak_100_G.mp3', key: 'G' },
+    { bpm: 100, file: 'sounds/taals/roopak_100_Cs.mp3', key: 'Cs' },
     { bpm: 120, file: 'sounds/taals/roopak_120_G.mp3', key: 'G' },
+    { bpm: 120, file: 'sounds/taals/roopak_120_Cs.mp3', key: 'Cs' },
     { bpm: 140, file: 'sounds/taals/roopak_140_G.mp3', key: 'G' },
+    { bpm: 140, file: 'sounds/taals/roopak_140_Cs.mp3', key: 'Cs' },
     { bpm: 160, file: 'sounds/taals/roopak_160_G.mp3', key: 'G' },
+    { bpm: 160, file: 'sounds/taals/roopak_160_Cs.mp3', key: 'Cs' },
     { bpm: 180, file: 'sounds/taals/roopak_180_G.mp3', key: 'G' },
+    { bpm: 180, file: 'sounds/taals/roopak_180_Cs.mp3', key: 'Cs' },
     { bpm: 200, file: 'sounds/taals/roopak_200_G.mp3', key: 'G' },
+    { bpm: 200, file: 'sounds/taals/roopak_200_Cs.mp3', key: 'Cs' }
   ],
 };
 
@@ -64,17 +89,21 @@ const TAAL_BEATS = {
   'Tilwada': 16,
 };
 
-const getSourceFile = (taalName, targetBpm) => {
+const getSourceFile = (taalName, targetBpm, selectedKey) => {
   const filesForTaal = TAAL_FILES[taalName];
-  const suitableFiles = filesForTaal.filter(f => f.bpm <= targetBpm);
-
+  const specialKeys = ['A', 'A#', 'B', 'C', 'C#'];
+  let keyToUse = specialKeys.includes(selectedKey) ? 'Cs' : 'G';
+  const filesForKey = filesForTaal.filter(f => f.key === keyToUse);
+  const suitableFiles = filesForKey.filter(f => f.bpm <= targetBpm);
+  let pickedFile;
   if (suitableFiles.length > 0) {
-    // Find the one with the highest BPM among suitable files
-    return suitableFiles.reduce((prev, current) => (prev.bpm > current.bpm) ? prev : current);
+    pickedFile = suitableFiles.reduce((prev, current) => (prev.bpm > current.bpm) ? prev : current);
+  } else if (filesForKey.length > 0) {
+    pickedFile = filesForKey.reduce((prev, current) => (prev.bpm < current.bpm) ? prev : current);
   } else {
-    // If no file is smaller or equal, take the one with the lowest BPM
-    return filesForTaal.reduce((prev, current) => (prev.bpm < current.bpm) ? prev : current);
+    pickedFile = filesForTaal.reduce((prev, current) => (prev.bpm < current.bpm) ? prev : current);
   }
+  return pickedFile;
 };
 
 
@@ -102,7 +131,7 @@ function TablaMachine() {
   const startTimeRef = useRef(0);
   const animationFrameRef = useRef(null);
 
-  const sourceFile = getSourceFile(selectedTaalName, bpm);
+  const sourceFile = getSourceFile(selectedTaalName, bpm, selectedKey);
 
   // Calculate pitch shift in semitones
   const getPitchShift = () => {
