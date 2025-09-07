@@ -447,7 +447,7 @@ function TablaMachine() {
         </div>
       </div>
       <div style={{ width: '100vw', textAlign: 'center', color: '#888', fontSize: '0.8em', marginTop: '16px', marginBottom: '8px', letterSpacing: '1px', position: 'absolute', bottom: '16px' }}>
-        Nilesh Kodikal 9Aug25 21:03
+        Nilesh Kodikal 7 Sep 19:03
       </div>
     </div>
   );
