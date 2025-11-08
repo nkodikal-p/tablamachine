@@ -10,6 +10,8 @@ import { FaPlay, FaStop } from 'react-icons/fa';
 // List of available taals and their files
 const TAAL_FILES = {
   'Japtaal': [
+  { bpm: 100, file: 'sounds/taals/japtaal_100_G.mp3', key: 'G' },
+  { bpm: 100, file: 'sounds/taals/japtaal_100_Cs.mp3', key: 'C#' },
   { bpm: 160, file: 'sounds/taals/japtaal_160_G.mp3', key: 'G' },
   { bpm: 160, file: 'sounds/taals/japtaal_160_Cs.mp3', key: 'C#' }
 
