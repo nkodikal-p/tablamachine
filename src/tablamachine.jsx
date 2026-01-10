@@ -129,6 +129,8 @@ function TablaMachine() {
   const tanpuraAudioRef = useRef(null);
   // Add state for tanpura volume
   const [tanpuraVolume, setTanpuraVolume] = useState(0.1);
+  // Add state for fine-tune pitch adjustment (in cents)
+  const [pitchFinetuneInCents, setPitchFinetuneInCents] = useState(0);
   const audioCtxRef = useRef(null);
   const sourceNodeRef = useRef(null);
   const startTimeRef = useRef(0);
@@ -184,7 +186,9 @@ function TablaMachine() {
   // As a safety, clamp to -12..+12 (shouldn't be needed here).
   if (semitoneDiff > 12) semitoneDiff = 12;
   if (semitoneDiff < -12) semitoneDiff = -12;
-  return semitoneDiff;
+  // Add fine-tune adjustment in cents (convert to semitones: 100 cents = 1 semitone)
+  const finetuneInSemitones = pitchFinetuneInCents / 100;
+  return semitoneDiff + finetuneInSemitones;
       };
       // On the first run (not a loop), ensure the context is created.
       if (!loop && !audioCtxRef.current) {
@@ -267,7 +271,7 @@ function TablaMachine() {
       }
       cancelAnimationFrame(animationFrameRef.current);
     }
-  }, [isPlaying, sourceFile, selectedKey, bpm, selectedTaalName]);
+  }, [isPlaying, sourceFile, selectedKey, bpm, selectedTaalName, pitchFinetuneInCents]);
 
   // Handle Tanpura playback when toggled or key changes
   useEffect(() => {
@@ -466,9 +470,17 @@ function TablaMachine() {
             ) : null}
           </div>
         </div>
+        <div style={{ marginBottom: '20px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '10px' }}>
+            <label style={{ fontWeight: 'bold', color: '#676767ff', marginRight: '10px', fontSize: '1.0em' }}>Fine-tune: </label>
+            <button onClick={() => setPitchFinetuneInCents(pitchFinetuneInCents - 5)} disabled={pitchFinetuneInCents <= -100} style={{ flex: '0 0 auto', padding: '10px', marginRight: '5px', borderRadius: '4px', border: '1px solid #ccc', backgroundColor: '#f0f0f0', cursor: 'pointer', color: '#333' }}>-</button>
+            <span style={{ minWidth: '3em', textAlign: 'center', fontSize: '1.2em', fontWeight: 'bold', color: '#333' }}>{pitchFinetuneInCents > 0 ? '+' : ''}{pitchFinetuneInCents}¢</span>
+            <button onClick={() => setPitchFinetuneInCents(pitchFinetuneInCents + 5)} disabled={pitchFinetuneInCents >= 100} style={{ flex: '0 0 auto', padding: '10px', marginLeft: '5px', borderRadius: '4px', border: '1px solid #ccc', backgroundColor: '#f0f0f0', cursor: 'pointer', color: '#333' }}>+</button>
+          </div>
+        </div>
       </div>
       <div style={{ width: '100vw', textAlign: 'center', color: '#888', fontSize: '0.8em', marginTop: '16px', marginBottom: '8px', letterSpacing: '1px', position: 'absolute', bottom: '16px' }}>
-        Nilesh Kodikal 7 Sep 25, 20:17
+        Nilesh Kodikal 2026.10.01
       </div>
     </div>
   );
