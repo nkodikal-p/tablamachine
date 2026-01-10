@@ -470,7 +470,7 @@ function TablaMachine() {
             ) : null}
           </div>
         </div>
-        <div style={{ marginBottom: '20px' }}>
+        <div style={{ marginBottom: '20px', marginTop: '5px' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '10px' }}>
             <label style={{ fontWeight: 'bold', color: '#676767ff', marginRight: '10px', fontSize: '1.0em' }}>Fine-tune: </label>
             <button onClick={() => setPitchFinetuneInCents(pitchFinetuneInCents - 5)} disabled={pitchFinetuneInCents <= -100} style={{ flex: '0 0 auto', padding: '10px', marginRight: '5px', borderRadius: '4px', border: '1px solid #ccc', backgroundColor: '#f0f0f0', cursor: 'pointer', color: '#333' }}>-</button>
