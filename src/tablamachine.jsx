@@ -188,7 +188,9 @@ function TablaMachine() {
   if (semitoneDiff < -12) semitoneDiff = -12;
   // Add fine-tune adjustment in cents (convert to semitones: 100 cents = 1 semitone)
   const finetuneInSemitones = pitchFinetuneInCents / 100;
-  return semitoneDiff + finetuneInSemitones;
+  // Add constant 20 cents offset to correct for flat original audio
+  const baseOffsetInSemitones = 20 / 100;
+  return semitoneDiff + finetuneInSemitones + baseOffsetInSemitones;
       };
       // On the first run (not a loop), ensure the context is created.
       if (!loop && !audioCtxRef.current) {
@@ -307,6 +309,41 @@ function TablaMachine() {
     const newBpm = bpm + amount;
     if (newBpm >= 40 && newBpm <= 300) {
       setBpm(newBpm);
+      if (isPlaying) {
+        if (sourceNodeRef.current) {
+          sourceNodeRef.current.disconnect();
+          sourceNodeRef.current = null;
+        }
+        setIsPlaying(false);
+        // Debounce: only restart playback after user stops changing BPM for 200ms
+        if (bpmDebounceRef.current) {
+          clearTimeout(bpmDebounceRef.current);
+        }
+        bpmDebounceRef.current = setTimeout(() => {
+          setIsPlaying(true);
+        }, 200);
+      }
+    }
+  };
+
+  const updatePitchFinetune = (amount) => {
+    const newFinetune = pitchFinetuneInCents + amount;
+    if (newFinetune >= -100 && newFinetune <= 100) {
+      setPitchFinetuneInCents(newFinetune);
+      if (isPlaying) {
+        if (sourceNodeRef.current) {
+          sourceNodeRef.current.disconnect();
+          sourceNodeRef.current = null;
+        }
+        setIsPlaying(false);
+        // Debounce: only restart playback after user stops changing pitch for 200ms
+        if (bpmDebounceRef.current) {
+          clearTimeout(bpmDebounceRef.current);
+        }
+        bpmDebounceRef.current = setTimeout(() => {
+          setIsPlaying(true);
+        }, 200);
+      }
     }
   };
 
@@ -473,14 +510,14 @@ function TablaMachine() {
         <div style={{ marginBottom: '20px', marginTop: '5px' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '10px' }}>
             <label style={{ fontWeight: 'bold', color: '#676767ff', marginRight: '10px', fontSize: '1.0em' }}>Fine-tune: </label>
-            <button onClick={() => setPitchFinetuneInCents(pitchFinetuneInCents - 5)} disabled={pitchFinetuneInCents <= -100} style={{ flex: '0 0 auto', padding: '10px', marginRight: '5px', borderRadius: '4px', border: '1px solid #ccc', backgroundColor: '#f0f0f0', cursor: 'pointer', color: '#333' }}>-</button>
+            <button onClick={() => updatePitchFinetune(-5)} disabled={pitchFinetuneInCents <= -100} style={{ flex: '0 0 auto', padding: '10px', marginRight: '5px', borderRadius: '4px', border: '1px solid #ccc', backgroundColor: '#f0f0f0', cursor: 'pointer', color: '#333' }}>-</button>
             <span style={{ minWidth: '3em', textAlign: 'center', fontSize: '1.2em', fontWeight: 'bold', color: '#333' }}>{pitchFinetuneInCents > 0 ? '+' : ''}{pitchFinetuneInCents}¢</span>
-            <button onClick={() => setPitchFinetuneInCents(pitchFinetuneInCents + 5)} disabled={pitchFinetuneInCents >= 100} style={{ flex: '0 0 auto', padding: '10px', marginLeft: '5px', borderRadius: '4px', border: '1px solid #ccc', backgroundColor: '#f0f0f0', cursor: 'pointer', color: '#333' }}>+</button>
+            <button onClick={() => updatePitchFinetune(5)} disabled={pitchFinetuneInCents >= 100} style={{ flex: '0 0 auto', padding: '10px', marginLeft: '5px', borderRadius: '4px', border: '1px solid #ccc', backgroundColor: '#f0f0f0', cursor: 'pointer', color: '#333' }}>+</button>
           </div>
         </div>
       </div>
       <div style={{ width: '100vw', textAlign: 'center', color: '#888', fontSize: '0.8em', marginTop: '16px', marginBottom: '8px', letterSpacing: '1px', position: 'absolute', bottom: '16px' }}>
-        Nilesh Kodikal 2026.10.01
+        Nilesh Kodikal 2026.01.11
       </div>
     </div>
   );
