@@ -188,8 +188,8 @@ function TablaMachine() {
   if (semitoneDiff < -12) semitoneDiff = -12;
   // Add fine-tune adjustment in cents (convert to semitones: 100 cents = 1 semitone)
   const finetuneInSemitones = pitchFinetuneInCents / 100;
-  // Add constant 20 cents offset to correct for flat original audio
-  const baseOffsetInSemitones = 20 / 100;
+  // Add constant 15 cents offset to correct for flat original audio
+  const baseOffsetInSemitones = 15 / 100;
   return semitoneDiff + finetuneInSemitones + baseOffsetInSemitones;
       };
       // On the first run (not a loop), ensure the context is created.
@@ -517,7 +517,7 @@ function TablaMachine() {
         </div>
       </div>
       <div style={{ width: '100vw', textAlign: 'center', color: '#888', fontSize: '0.8em', marginTop: '16px', marginBottom: '8px', letterSpacing: '1px', position: 'absolute', bottom: '16px' }}>
-        Nilesh Kodikal 2026.01.11
+        Nilesh Kodikal 2026.01.11.1
       </div>
     </div>
   );
